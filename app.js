@@ -1,26 +1,24 @@
 // Require Libraries
 const express = require('express');
-
+const knex = require('knex');
 // App Setup
+const knexConfig = require('./knexfile.js');
+const port = process.env.PORT || 3000;
+
 const app = express();
+const pool = knex(knexConfig);
 
 // Middleware
-const {Pool} = require('pg');
-const pool = new Pool({
- connectionString: "postgres://wirgwphxtjgazc:0d6bd578a728ae0862d1945ca60a32424a26503c6a0ad7acc87e8cf41dd80a1b@ec2-34-206-220-95.compute-1.amazonaws.com:5432/d3o2p1et5m8njs",
- ssl: {
- rejectUnauthorized: false
- }
-});
+app.use(express.json()); // parse query string parameters as JSON (GET/DELETE)
+app.use(express.urlencoded({ extended: true })); // parse body parameters as JSON (POST/PUT)
 
-pool.query("select data->>'firstName' as firstName from employees where data->>'firstName'='Chris';", (err, res) => {
-  if (err) {
-      console.log("Error - Failed to select all from Users");
-      console.log(err);
-  }
-  else{
-      console.log(res.rows);
-  }
+app.get('/', (req, res) => {
+  pool.select('*').from('employees').then((data) => {
+    res.status(200).json(data);
+  }).catch((err) => {
+    // Send a 500 (internal server error) if something goes wrong (rejected promises are not caught by express).
+    res.status(500).end();
+  });
 });
 // Routes
 app.get('/', (req, res) => {
@@ -29,6 +27,6 @@ app.get('/', (req, res) => {
 
 // Start Server
 
-// app.listen(3000, () => {
-//   console.log('Gif Search listening on port localhost:3000!');
-// });
+ app.listen(3000, () => {
+   console.log('Gif Search listening on port localhost:3000!');
+ });
