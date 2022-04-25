@@ -14,10 +14,18 @@ app.use(express.urlencoded({ extended: true })); // parse body parameters as JSO
 
 // Routes
 //Save path of route files
-var employees = require('./routes/employees');
+
 
 //Url routes to file
+var employees = require('./routes/employees');
+var pto = require('./routes/pto');
+var assignedtraining = require('./routes/assignedtraining');
+var performance = require('./routes/performance');
+
+app.use('/pto',pto);
+app.use('/assignedtraining',assignedtraining);
 app.use('/employees',  employees);
+app.use('/performance', performance);
 
 // const pool = knex(knexConfig);
 
