@@ -13,6 +13,7 @@ exports.up = function(knex) {
         table.string('additional_info');
         table.date('start_date').notNullable();
         table.date('end_date').notNullable();
+        table.boolean('approved').notNullable();
       })
 };
 
