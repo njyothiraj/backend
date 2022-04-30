@@ -17,7 +17,11 @@
     ]);
     await knex('pto').del();
     await knex('pto').insert([
-      { id: 1, emp_id:1, manager_id: 2, 'type': 'pto', 'additional_info': 'yes', start_date: '2000-08-30', end_date: '2000-08-31', approved: 1},
+      { id: 1, emp_id:1, manager_id: 2, 'type': 'medical', start_date: '2000-08-30', end_date: '2000-08-31', approved: 1},
+      { id: 2, emp_id:2, manager_id: 2, 'type': 'vacation', additional_info: 'going to Cancun', start_date: '2000-09-20', end_date: '2000-09-29', approved: 0},
+      { id: 3, emp_id:2, manager_id: 2, 'type': 'leave', additional_info: 'paternity leave', start_date: '2000-09-21', end_date: '2000-12-29', approved: 0},
+      { id: 4, emp_id:1, manager_id: 2, 'type': 'medical', start_date: '2000-09-12', end_date: '2000-11-12', approved: 0},
+    
     ]);
     await knex('performance').del();
     await knex('performance').insert([
