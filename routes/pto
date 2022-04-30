@@ -68,7 +68,7 @@ router.post('/', (req, res) => {
     //     "type": "vacation",
     //     "approved": 1
     // }
-//would update approved of the PTO request with ID 5 to 1
+//would update approved of the PTO request with ID 5 to 1 (given that the other attributes were the same as before - emp_id, etc)
 router.put('/', (req, res) => {
   //console.log(req.body);
   const id = req.body.id;

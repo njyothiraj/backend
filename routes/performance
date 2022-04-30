@@ -16,11 +16,20 @@ var router = express.Router();
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     pool.select('*').from('performance').where("from_employee", id).then((data) => {
-      res.status(200).json(data);
+      res.status(200).json({"list": data});
     }).catch((err) => {
       res.status(500).end();
     });
   });
+
+  //Get ALL performance reviews 
+router.get('/', (req, res) => {
+  pool.select('*').from('performance').then((data) => {
+    res.status(200).json({"list": data});
+  }).catch((err) => {
+    res.status(500).end();
+  });
+});
 // router.get('/:id', (req, res) => {
 //     const id = parseInt(req.params.id);
 //     pool.select('*').from('performance').where("id", id).then((data) => {

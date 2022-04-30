@@ -25,11 +25,22 @@ var router = express.Router();
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     pool.select('*').from('training').where("emp_id", id).then((data) => {
-      res.status(200).json(data);
+      res.status(200).json({"list": data});
     }).catch((err) => {
       res.status(500).end();
     });
   });
+
+//Get all training requests no matter the employee
+router.get('/', (req, res) => {
+  const id = parseInt(req.params.id);
+  pool.select('*').from('training').then((data) => {
+    res.status(200).json({"list": data});
+  }).catch((err) => {
+    res.status(500).end();
+  });
+});
+
 //Post a  entry of a training request through the req.body from a manager
 router.post('/:id', (req, res) => {
 const id = parseInt(req.params.id);
@@ -43,7 +54,36 @@ const id = parseInt(req.params.id);
     res.status(500).end();
   })
 });
-//Delete pto request based on ID
+
+
+//Update training
+//Updated json with new attributes of training is passed in through req.body
+//New json can contain any number of attributes (any attributes not present will stay what they were before)
+//HOWEVER, the json must contain an ID or the system will return an error
+//Ex. sending a PUT request at URL localhost:3000/assignedtraining
+//with a req.body of     
+    // {
+    //     "id": 5,
+    //     "emp_id": 1,
+    //     "completed": 1
+    // }
+//would update completed of the training with ID 5 to 1 (given that the other attributes were the same as before - emp_id, etc)
+router.put('/', (req, res) => {
+  //console.log(req.body);
+  const id = req.body.id;
+  //console.log("ID " + id);
+  pool("training").where("id", id).update(req.body).then(function (count) {
+    //console.log(count);
+    res.send("successfully put");
+    res.status(200).end();
+  }).catch((err) => {
+    // Send a 500 (internal server error) if something goes wrong (rejected promises are not caught by express).
+    res.send("put error");
+    res.status(500).end();
+  })
+});
+
+//Delete training based on ID
 //Ex. sending a delete request at URL localhost:3000/employee/123 would delete the user with ID 123
 router.delete('/:id', (req, res) => {
   const id = parseInt(req.params.id);
