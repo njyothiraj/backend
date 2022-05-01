@@ -21,11 +21,13 @@ var employees = require('./routes/employees');
 var pto = require('./routes/pto');
 var assignedtraining = require('./routes/assignedtraining');
 var performance = require('./routes/performance');
+var login = require('./routes/login');
 
 app.use('/pto',pto);
 app.use('/assignedtraining',assignedtraining);
 app.use('/employees',  employees);
 app.use('/performance', performance);
+app.use('/login', login);
 
 // const pool = knex(knexConfig);
 

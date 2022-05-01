@@ -1,14 +1,19 @@
-
-   
+//const bcrypt = require("bcryptjs/dist/bcrypt");
+const bcrypt = require('bcryptjs');
 /**
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
  exports.seed = async function(knex) {
+   await knex('company').del();
+   await knex('company').insert([
+     {id: 1, 'company_name': 'amazon'},
+     {id: 2, 'company_name': 'google'}
+   ]);
     await knex('employees').del();
     await knex('employees').insert([
-      { id: 1, manager_id: 2, 'first_name': 'Benjamin', 'last_name': 'Melz', email: 'bm@gmail.com', password: 'cs320' },
-      { id: 2, manager_id: 3, 'first_name': 'Heath', 'last_name': 'Brames', email: 'hb@gmail.com', password: 'cs320'}
+      { id: 1, manager_id: 2, 'first_name': 'Benjamin', 'last_name': 'Melz', email: 'bm@gmail.com', password: bcrypt.hashSync('cs320'), company_id: 1 },
+      { id: 2, manager_id: 3, 'first_name': 'Heath', 'last_name': 'Brames', email: 'hb@gmail.com', password: bcrypt.hashSync('cs320.123'), company_id: 2}
     ]);
     await knex('pto').del();
     await knex('pto').insert([
