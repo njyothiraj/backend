@@ -16,7 +16,7 @@ router.post('/user', (req, res) => {
 			return res.json({ status: 'not valid'})
 		}
 	    if ( bcrypt.compare(password, data[0].password)) {
-			res.status(200).send(data[0])
+			res.status(200).json({"list": (data)})
 		}
 	}).catch((err) => {
     // Send a 500 (internal server error) if something goes wrong (rejected promises are not caught by express).
