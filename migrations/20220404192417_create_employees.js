@@ -10,6 +10,7 @@
       table.string('last_name').notNullable();
       table.string('email').notNullable();
       table.string('password').notNullable();
+      table.integer('isManager').notNullable();
     });
   };
   
