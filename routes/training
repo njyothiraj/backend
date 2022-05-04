@@ -6,11 +6,11 @@ const pool = knex(knexConfig);
 
 var router = express.Router();
 
-//Get incompleted trainings  requests based for that employee ID
+//Get incompleted trainings requests based for that employee ID
 router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id);
   pool.select('*').from('training').where("emp_id", id).andWhere("completed",0).then((data) => {
-    res.status(200).json(data);
+    res.status(200).json({"list": (data[0])});
   }).catch((err) => {
     res.status(500).end();
   });
@@ -19,7 +19,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     pool.select('*').from('training').where("emp_id", id).andWhere("completed",1).then((data) => {
-      res.status(200).json(data);
+      res.status(200).json({"list": (data[0])});
     }).catch((err) => {
       res.status(500).end();
     });
@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 router.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     pool.select('*').from('training').where("emp_id", id).then((data) => {
-      res.status(200).json(data);
+      res.status(200).json({"list": (data[0])});
     }).catch((err) => {
       res.status(500).end();
     });

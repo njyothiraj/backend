@@ -1,6 +1,7 @@
 //not sure if this is the correct place for these
 var express = require('express');
 const knex = require('knex');
+const { restart } = require('nodemon');
 const knexConfig = require('../knexfile.js');
 const pool = knex(knexConfig);
 
@@ -12,9 +13,10 @@ var router = express.Router();
 router.get('/:id', (req, res) => {
   const id = parseInt(req.params.id);
   pool.select('*').from('employees').where("id", id).then((data) => {
-    res.status(200).json({"list": (data)});
+    res.status(200).json({"list": (data[0])});
   }).catch((err) => {
     // Send a 500 (internal server error) if something goes wrong (rejected promises are not caught by express).
+    res.status(err)
     res.status(500).end();
   });
 });
